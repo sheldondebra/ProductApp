@@ -14,7 +14,7 @@ class ProductController extends Controller
         $addProduct->create([
             'name' => 'Product 1',
             'price' => 100
-            
-        ])
+
+        ]);
     }
 }
