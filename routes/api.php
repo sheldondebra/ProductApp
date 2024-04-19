@@ -9,3 +9,4 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 Route::post('/add-product',[ProductController::class, 'createproduct']);
+Route::get('/show-product',[ProductController::class, 'showproduct']);
