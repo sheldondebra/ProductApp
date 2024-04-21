@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Vendors;
 use App\Models\Products;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -18,14 +19,14 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
+            'product_name' => 'required|string|max:255',
             'price' => 'required|numeric',
             'vendor_id' => 'required|exists:vendors,id',
             // Add other validation rules as needed
         ]);
 
         $product = Products::create($request->all());
-        return response()->json($product, Response::HTTP_CREATED);
+        return response()->json($product, 200);
     }
 
     public function show($id)
@@ -37,10 +38,10 @@ class ProductController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'name' => 'string|max:255',
+            'product_name' => 'string|max:255',
             'price' => 'numeric',
             'vendor_id' => 'exists:vendors,id',
-            // Add other validation rules as needed
+            'description' => 'nullable|string',
         ]);
 
         $product = Products::findOrFail($id);
@@ -52,7 +53,26 @@ class ProductController extends Controller
     {
         $product = Products::findOrFail($id);
         $product->delete();
-        return response()->json(null, Response::HTTP_NO_CONTENT);
+        return response()->json($product, 200);
     }
+    public function findProductAndVendor($productId)
+    {
+        try {
+    
+            $product = Products::with('vendor')->findOrFail($productId);
+            return response()->json($product);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Product not found.'], 404);
+        }
+    }
+    public function findProductsByVendor($vendorId)
+    {
+        try {
 
+            $vendor = Vendors::with('products')->findOrFail($vendorId);
+            return response()->json($vendor->products);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Vendor not found.'], 404);
+        }
+    }
 }
