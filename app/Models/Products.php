@@ -14,12 +14,13 @@ class Products extends Model
     protected $fillable = [
         'product_name',
         'price',
-        'description'
+        'description',
+        'vendor_id'
    ];
 
     public function vendor()
     {
-        return $this->belongsTo(Vendors::class);
+        return $this->belongsTo(Vendors::class,'vendor_id', 'id');
     }
 
 }
