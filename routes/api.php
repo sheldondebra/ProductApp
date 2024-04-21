@@ -9,16 +9,22 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-// Vendors Routes
-Route::get('/vendors', [VendorController::class, 'index']);
-Route::post('/vendors', [VendorController::class, 'store']);
-Route::get('/vendors/{id}', [VendorController::class, 'show']);
-Route::put('/vendors/{id}', [VendorController::class, 'update']);
-Route::delete('/vendors/{id}', [VendorController::class, 'destroy']);
 
-// Products Routes
+Route::get('/allvendors', [VendorController::class, 'index']);
+Route::post('/vendors', [VendorController::class, 'store']);
+Route::get('/vendor/{id}', [VendorController::class, 'show']);
+Route::put('/edit-vendor/{id}', [VendorController::class, 'update']);
+Route::delete('/vendor/{id}', [VendorController::class, 'destroy']);
+
+
 Route::get('/products', [ProductController::class, 'index']);
-Route::post('/products', [ProductController::class, 'store']);
-Route::get('/products/{id}', [ProductController::class, 'show']);
+Route::post('/addproducts', [ProductController::class, 'store']);
+Route::get('/product/{id}', [ProductController::class, 'show']);
 Route::put('/products/{id}', [ProductController::class, 'update']);
-Route::delete('/products/{id}', [ProductController::class, 'destroy']);
+Route::delete('/del-product/{id}', [ProductController::class, 'destroy']);
+
+
+Route::get('/products/{id}/vendor', [ProductController::class, 'findProductAndVendor']);
+Route::get('/vendors/{id}/products', [ProductController::class, 'findProductsByVendor']);
+
+
