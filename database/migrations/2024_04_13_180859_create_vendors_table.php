@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->string('vendorname');
             $table->text('phone_number');
-            $table->string('product_name');
             $table->timestamps();
         });
     }
